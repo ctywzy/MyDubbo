@@ -5,7 +5,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
-import rpc.server.constant.RpcServerConstant;
+import rpc.common.constant.RpcConstant;
 import rpc.server.handle.RpcServerHandler;
 
 /**
@@ -20,7 +20,7 @@ public class RpcServer extends Thread{
     private final int port;
 
     public RpcServer() {
-        this.port = RpcServerConstant.PORT;
+        this.port = RpcConstant.PORT;
     }
 
 

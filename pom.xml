@@ -12,6 +12,7 @@
         <module>rpc-server</module>
         <module>rpc-test</module>
         <module>rpc-client</module>
+        <module>rpc-common</module>
     </modules>
 
     <properties>
@@ -19,6 +20,7 @@
         <sl4jf.version>1.7.2</sl4jf.version>
         <lombok.version>1.16.18</lombok.version>
         <server.version>1.0-SNAPSHOT</server.version>
+        <common.version>1.0-SNAPSHOT</common.version>
     </properties>
 
     <!-- 通过pom文件配置远程仓库 -->
@@ -54,6 +56,12 @@
                 <groupId>org.example</groupId>
                 <artifactId>rpc-server</artifactId>
                 <version>${server.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.example</groupId>
+                <artifactId>rpc-common</artifactId>
+                <version>${common.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
