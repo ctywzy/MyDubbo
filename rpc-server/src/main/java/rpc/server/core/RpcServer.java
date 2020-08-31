@@ -1,5 +1,6 @@
 package rpc.server.core;
 
+import com.google.common.base.Throwables;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -56,11 +57,10 @@ public class RpcServer extends Thread{
             channelFuture.channel().closeFuture().syncUninterruptibly();
             log.info("RPC 服务端关闭完成");
         } catch (Exception e) {
-            log.error("RPC 服务异常", e);
+            log.error("RPC 服务异常", Throwables.getStackTraceAsString(e));
         } finally {
             workerGroup. shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
-        super.run();
     }
 }

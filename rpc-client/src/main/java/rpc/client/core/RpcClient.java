@@ -54,7 +54,7 @@ public class RpcClient extends Thread{
             channelFuture.channel().closeFuture().syncUninterruptibly();
             log.info("RPC 服务开始客户端已关闭");
         } catch (Exception e){
-            log.error("RPC 客户端遇到异常", Throwables.getStackTraceAsString(e));
+            log.error("RPC 客户端遇到异常:{}", Throwables.getStackTraceAsString(e));
         } finally {
             workerGroup.shutdownGracefully();
         }
