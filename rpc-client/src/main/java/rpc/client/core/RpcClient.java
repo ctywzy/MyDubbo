@@ -48,7 +48,7 @@ public class RpcClient extends Thread{
                                     .addLast(new RpcClientHandler());
                         }
                     })
-                    .connect("localhost",port)
+                    .connect(RpcConstant.ADDRESS, port)
                     .syncUninterruptibly();
             log.info("RPC 服务启动客户端完成，监听端口：" + port);
             channelFuture.channel().closeFuture().syncUninterruptibly();

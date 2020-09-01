@@ -7,5 +7,13 @@ package rpc.common.constant;
  **/
 public final class RpcConstant {
 
+    /**
+     * 端口号
+     */
     public static final int PORT = 9876;
+
+    /**
+     * 地址
+     */
+    public static final String ADDRESS = "127.0.0.1";
 }
