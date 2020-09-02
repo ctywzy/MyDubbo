@@ -8,9 +8,16 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
+import rpc.client.code.RequestDecode;
+import rpc.client.code.RequestEncode;
 import rpc.client.handle.RpcClientHandler;
 import rpc.common.constant.RpcConstant;
 
+/**
+ * @Description netty客户端类
+ * @Author wangzy
+ * @Date 2020/9/2 1:59 下午
+ **/
 @Slf4j
 public class RpcClient extends Thread{
 
@@ -38,18 +45,20 @@ public class RpcClient extends Thread{
         try{
             Bootstrap bootStrap = new Bootstrap();
             ChannelFuture channelFuture = bootStrap.group(workerGroup)
-                    .channel(NioSocketChannel.class)
-                    .option(ChannelOption.SO_KEEPALIVE, true)
-                    .handler(new ChannelInitializer<Channel>() {
-                        @Override
-                        protected void initChannel(Channel ch) throws Exception {
-                            ch.pipeline()
-                                    .addLast(new LoggingHandler(LogLevel.INFO))
-                                    .addLast(new RpcClientHandler());
-                        }
-                    })
-                    .connect(RpcConstant.ADDRESS, port)
-                    .syncUninterruptibly();
+                                                   .channel(NioSocketChannel.class)
+                                                   .option(ChannelOption.SO_KEEPALIVE, true)
+                                                   .handler(new ChannelInitializer<Channel>() {
+                                                        @Override
+                                                        protected void initChannel(Channel ch) throws Exception {
+                                                            ch.pipeline()
+                                                                .addLast(new LoggingHandler(LogLevel.INFO))
+                                                                .addLast(new RequestDecode())
+                                                                .addLast(new RequestEncode())
+                                                                .addLast(new RpcClientHandler());
+                                                        }
+                                                   })
+                                                   .connect(RpcConstant.ADDRESS, port)
+                                                   .syncUninterruptibly();
             log.info("RPC 服务启动客户端完成，监听端口：" + port);
             channelFuture.channel().closeFuture().syncUninterruptibly();
             log.info("RPC 服务开始客户端已关闭");

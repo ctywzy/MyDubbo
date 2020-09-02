@@ -7,6 +7,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import rpc.common.constant.RpcConstant;
+import rpc.server.code.ResponseDecode;
+import rpc.server.code.ResponseEncode;
 import rpc.server.handle.RpcServerHandler;
 
 /**
@@ -35,17 +37,20 @@ public class RpcServer extends Thread{
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(workerGroup, bossGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .childHandler(new ChannelInitializer<Channel>() {
+                     .channel(NioServerSocketChannel.class)
+                     .childHandler(new ChannelInitializer<Channel>() {
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
-                            ch.pipeline().addLast(new RpcServerHandler());
-                        }
-                    })
-                    // 这个参数影响的是还没有被accept 取出的连接
-                    .option(ChannelOption.SO_BACKLOG, 128)
-                    // 这个参数只是过一段时间内客户端没有响应，服务端会发送一个 ack 包，以判断客户端是否还活着。
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                            ch.pipeline()
+                                .addLast(new RpcServerHandler())
+                                .addLast(new ResponseDecode())
+                                .addLast(new ResponseEncode());
+                         }
+                     })
+                     // 这个参数影响的是还没有被accept 取出的连接
+                     .option(ChannelOption.SO_BACKLOG, 128)
+                     // 这个参数只是过一段时间内客户端没有响应，服务端会发送一个 ack 包，以判断客户端是否还活着。
+                     .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             // 绑定端口，开始接收进来的链接
             ChannelFuture channelFuture = bootstrap.bind(port).syncUninterruptibly();

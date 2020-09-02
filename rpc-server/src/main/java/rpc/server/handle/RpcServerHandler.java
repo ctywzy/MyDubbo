@@ -9,7 +9,7 @@ import rpc.common.service.Calculator;
 import rpc.server.service.CalculatorImpl;
 
 /**
- * @Description
+ * @Description 服务端请求处理类
  * @Author wangzy
  * @Date 2020/8/31 4:51 下午
  **/
@@ -19,7 +19,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         final String id = ctx.channel().id().asLongText();
-        log.info("[Server] channel : {} connected " + id);
+        log.info("[Server] channel : {} connected " , id);
     }
 
     @Override

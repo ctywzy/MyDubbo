@@ -6,6 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 import rpc.common.model.CalculateRequest;
 import rpc.common.model.CalculateResponse;
 
+/**
+ * @Description 客户端请求处理类
+ * @Author wangzy
+ * @Date 2020/9/2 1:59 下午
+ **/
 @Slf4j
 public class RpcClientHandler extends SimpleChannelInboundHandler {
 

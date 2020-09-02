@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/ctywzy/MyDubbo/issues"
   },
-  "homepage": "https://github.com/ctywzy/MyDubbo#readme"
+  "homepage": "https://github.com/ctywzy/MyDubbo#readme",
+
+  "scripts": {
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
+  }
 }
