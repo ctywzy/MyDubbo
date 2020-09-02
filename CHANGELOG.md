@@ -1,6 +1,11 @@
 # 1.0.0 (2020-09-02)
 
 
+### Bug Fixes
+
+* ch.pipline 顺序问题会导致加解码类失效 ([30e1a55](https://github.com/ctywzy/MyDubbo/commit/30e1a559a2728ebd373ee9381aa41b87754d7830))
+
+
 ### Features
 
 * changeLog 功能添加 ([a8e3cec](https://github.com/ctywzy/MyDubbo/commit/a8e3cec532f00a8ec5908ed74b82ed0af9906c08))

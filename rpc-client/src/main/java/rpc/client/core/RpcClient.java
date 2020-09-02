@@ -36,8 +36,8 @@ public class RpcClient extends Thread{
 
     @Override
     public void run() {
-        // 启动客户端
 
+        // 启动客户端
         log.info("RPC 服务开始启动客户端");
 
         EventLoopGroup workerGroup = new NioEventLoopGroup();
