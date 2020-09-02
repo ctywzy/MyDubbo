@@ -1,24 +1,25 @@
-package rpc.client.code;
+package rpc.server.code;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
-import rpc.common.model.CalculateResponse;
+import rpc.common.model.CalculateRequest;
 
 import java.util.List;
 
 /**
- * @Description 请求参数解码类
+ * @Description 响应参数解码类
  * @Author wangzy
- * @Date 2020/9/2 11:54 上午
+ * @Date 2020/9/2 2:03 下午
  **/
 public class RequestDecode extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        Boolean success = in.readBoolean();
-        Long sum = in.readLong();
-        CalculateResponse response = new CalculateResponse(success, sum);
-        out.add(response);
+        //获取流中的字节对象
+        Long one = in.readLong();
+        Long two = in.readLong();
+        CalculateRequest request = new CalculateRequest(one, two);
+        out.add(request);
     }
 }

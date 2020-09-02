@@ -25,7 +25,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         final String id = ctx.channel().id().asLongText();
-
+        System.out.println(msg instanceof CalculateResponse);
         CalculateRequest request = (CalculateRequest)msg;
         log.info("[Server] receive channel : {} request: {} from ", id, request);
 

@@ -1,5 +1,5 @@
 rpc/client/handle/RpcClientHandler.class
+rpc/client/code/ResponseDecode.class
 rpc/client/code/RequestEncode.class
 rpc/client/core/RpcClient$1.class
-rpc/client/code/RequestDecode.class
 rpc/client/core/RpcClient.class

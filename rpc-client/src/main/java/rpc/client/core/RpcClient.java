@@ -8,7 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
-import rpc.client.code.RequestDecode;
+import rpc.client.code.ResponseDecode;
 import rpc.client.code.RequestEncode;
 import rpc.client.handle.RpcClientHandler;
 import rpc.common.constant.RpcConstant;
@@ -52,7 +52,7 @@ public class RpcClient extends Thread{
                                                         protected void initChannel(Channel ch) throws Exception {
                                                             ch.pipeline()
                                                                 .addLast(new LoggingHandler(LogLevel.INFO))
-                                                                .addLast(new RequestDecode())
+                                                                .addLast(new ResponseDecode())
                                                                 .addLast(new RequestEncode())
                                                                 .addLast(new RpcClientHandler());
                                                         }

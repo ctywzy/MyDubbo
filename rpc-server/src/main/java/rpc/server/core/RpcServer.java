@@ -7,7 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import rpc.common.constant.RpcConstant;
-import rpc.server.code.ResponseDecode;
+import rpc.server.code.RequestDecode;
 import rpc.server.code.ResponseEncode;
 import rpc.server.handle.RpcServerHandler;
 
@@ -42,9 +42,10 @@ public class RpcServer extends Thread{
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
                             ch.pipeline()
-                                .addLast(new RpcServerHandler())
-                                .addLast(new ResponseDecode())
-                                .addLast(new ResponseEncode());
+                                .addLast(new RequestDecode())
+                                .addLast(new ResponseEncode())
+                                .addLast(new RpcServerHandler());
+
                          }
                      })
                      // 这个参数影响的是还没有被accept 取出的连接

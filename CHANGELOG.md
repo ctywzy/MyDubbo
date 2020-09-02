@@ -3,8 +3,9 @@
 
 ### Features
 
-* changeLog 功能添加 ([2cc336b](https://github.com/ctywzy/MyDubbo/commit/2cc336bb39119bc674bba53c193bc363c27cf64a))
-* 客户端调服务端 ([1f018f6](https://github.com/ctywzy/MyDubbo/commit/1f018f66bc89c581a52bca94052c28c2a03ddf72))
+* changeLog 功能添加 ([a8e3cec](https://github.com/ctywzy/MyDubbo/commit/a8e3cec532f00a8ec5908ed74b82ed0af9906c08))
+* 客户端调服务端 ([ef4e48e](https://github.com/ctywzy/MyDubbo/commit/ef4e48e2bf1e1772d47bbad38e550ca974779246))
+* 给客户端和服务器增加 加解码操作使之可以通信 ([531d85b](https://github.com/ctywzy/MyDubbo/commit/531d85b300b512cb0b31a8885fb949c88a08cbd4))
 
 
 
