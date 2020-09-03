@@ -2,8 +2,12 @@ package rpc.common.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class CalculateResponse {
+public class CalculateResponse implements Serializable {
+
+    private static final long serialVersionUID = -3726677679497017305L;
 
     /**
      * 操作结果是否成功

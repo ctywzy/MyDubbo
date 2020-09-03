@@ -8,6 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import rpc.common.model.CalculateRequest;
 import rpc.common.model.CalculateResponse;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 /**
  * @Description 客户端请求处理类
  * @Author wangzy
@@ -33,7 +38,10 @@ public class RpcClientHandler extends SimpleChannelInboundHandler {
         byte[] bytes = new byte[byteBuf.readableBytes()];
         byteBuf.readBytes(bytes);
 
-        response = mapper.convertValue(byteBuf, CalculateResponse.class);
+        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        response = (CalculateResponse)ois.readObject();
+
         log.info("[Client] response is :{}", response);
     }
 

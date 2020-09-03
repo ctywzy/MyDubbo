@@ -100,9 +100,10 @@ public class RpcClient extends Thread{
         Channel channel = channelFuture.channel();
 
 
+        //写入流中
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream ops = new ObjectOutputStream(bos);
-        ops.writeObject(request);
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(request);
 
         byte[] bytes = bos.toByteArray();
 
