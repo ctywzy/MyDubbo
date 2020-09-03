@@ -11,7 +11,9 @@
 
 * changeLog 功能添加 ([a8e3cec](https://github.com/ctywzy/MyDubbo/commit/a8e3cec532f00a8ec5908ed74b82ed0af9906c08))
 * 利用netty的Bufbyte进行数据传输 ([4772ff1](https://github.com/ctywzy/MyDubbo/commit/4772ff1993bc9e35a3aa4e26cd5efdac8bde4f32))
+* 完善服务端向客户端发消息的字节码处理流程 ([7e34570](https://github.com/ctywzy/MyDubbo/commit/7e34570912af9d1cd4a2ef45e49683beabe674c9))
 * 客户端调服务端 ([ef4e48e](https://github.com/ctywzy/MyDubbo/commit/ef4e48e2bf1e1772d47bbad38e550ca974779246))
+* 封装字节和对象互相转换的方法 ([70d27a4](https://github.com/ctywzy/MyDubbo/commit/70d27a4aa28bdcbab584f341e5a315eeb1604570))
 * 由自动连接调用改为主动调用 ([ae096e9](https://github.com/ctywzy/MyDubbo/commit/ae096e9732b475329bbf4f6ed803ff97e89f3d68))
 * 给客户端和服务器增加 加解码操作使之可以通信 ([531d85b](https://github.com/ctywzy/MyDubbo/commit/531d85b300b512cb0b31a8885fb949c88a08cbd4))
 
