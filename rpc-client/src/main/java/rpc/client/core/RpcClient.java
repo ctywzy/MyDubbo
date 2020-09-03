@@ -102,7 +102,7 @@ public class RpcClient extends Thread{
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream ops = new ObjectOutputStream(bos);
-        ops.writeObject((Object) request);
+        ops.writeObject(request);
 
         byte[] bytes = bos.toByteArray();
 
