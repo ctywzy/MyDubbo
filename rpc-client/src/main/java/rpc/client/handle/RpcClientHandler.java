@@ -7,6 +7,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import rpc.common.model.CalculateRequest;
 import rpc.common.model.CalculateResponse;
+import rpc.common.stream.StreamConvert;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -33,14 +34,7 @@ public class RpcClientHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        //先把msg转换为ByteBuf对象
-        ByteBuf byteBuf = (ByteBuf)msg;
-        byte[] bytes = new byte[byteBuf.readableBytes()];
-        byteBuf.readBytes(bytes);
-
-        ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-        ObjectInputStream ois = new ObjectInputStream(bis);
-        response = (CalculateResponse)ois.readObject();
+        response = StreamConvert.bytesToObject(msg);
 
         log.info("[Client] response is :{}", response);
     }

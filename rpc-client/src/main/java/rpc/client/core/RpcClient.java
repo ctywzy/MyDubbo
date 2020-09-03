@@ -18,6 +18,7 @@ import rpc.client.handle.RpcClientHandler;
 import rpc.common.constant.RpcConstant;
 import rpc.common.model.CalculateRequest;
 import rpc.common.model.CalculateResponse;
+import rpc.common.stream.StreamConvert;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -101,14 +102,7 @@ public class RpcClient extends Thread{
 
 
         //写入流中
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(bos);
-        oos.writeObject(request);
-
-        byte[] bytes = bos.toByteArray();
-
-        ByteBuf byteBuf = Unpooled.copiedBuffer(bytes);
-        channel.writeAndFlush(byteBuf);
+        channel.writeAndFlush(StreamConvert.objectToBytes(request));
 
         channel.closeFuture().syncUninterruptibly();
         log.info("RPC 服务开始客户端已关闭");
