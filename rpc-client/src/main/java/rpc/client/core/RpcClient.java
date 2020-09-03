@@ -12,6 +12,8 @@ import rpc.client.code.ResponseDecode;
 import rpc.client.code.RequestEncode;
 import rpc.client.handle.RpcClientHandler;
 import rpc.common.constant.RpcConstant;
+import rpc.common.model.CalculateRequest;
+import rpc.common.model.CalculateResponse;
 
 /**
  * @Description netty客户端类
@@ -34,8 +36,18 @@ public class RpcClient extends Thread{
         this(RpcConstant.PORT);
     }
 
+    /**
+     * 信息
+     */
+    private ChannelFuture channelFuture;
+
+    /**
+     * 客户端处理
+     */
+    private RpcClientHandler channelHandler;
+
     @Override
-    public void run() {
+    public void start() {
 
         // 启动客户端
         log.info("RPC 服务开始启动客户端");
@@ -44,28 +56,42 @@ public class RpcClient extends Thread{
 
         try{
             Bootstrap bootStrap = new Bootstrap();
-            ChannelFuture channelFuture = bootStrap.group(workerGroup)
-                                                   .channel(NioSocketChannel.class)
-                                                   .option(ChannelOption.SO_KEEPALIVE, true)
-                                                   .handler(new ChannelInitializer<Channel>() {
-                                                        @Override
-                                                        protected void initChannel(Channel ch) throws Exception {
-                                                            ch.pipeline()
-                                                                .addLast(new LoggingHandler(LogLevel.INFO))
-                                                                .addLast(new ResponseDecode())
-                                                                .addLast(new RequestEncode())
-                                                                .addLast(new RpcClientHandler());
-                                                        }
-                                                   })
-                                                   .connect(RpcConstant.ADDRESS, port)
-                                                   .syncUninterruptibly();
+            channelFuture = bootStrap.group(workerGroup)
+                                     .channel(NioSocketChannel.class)
+                                     .option(ChannelOption.SO_KEEPALIVE, true)
+                                     .handler(new ChannelInitializer<Channel>() {
+                                         @Override
+                                         protected void initChannel(Channel ch) throws Exception {
+                                             channelHandler = new RpcClientHandler();
+                                             ch.pipeline()
+                                                 .addLast(new LoggingHandler(LogLevel.INFO))
+                                                 .addLast(new ResponseDecode())
+                                                 .addLast(new RequestEncode())
+                                                 .addLast(channelHandler);
+                                         }
+                                     })
+                                     .connect(RpcConstant.ADDRESS, port)
+                                     .syncUninterruptibly();
             log.info("RPC 服务启动客户端完成，监听端口：" + port);
-            channelFuture.channel().closeFuture().syncUninterruptibly();
-            log.info("RPC 服务开始客户端已关闭");
         } catch (Exception e){
             log.error("RPC 客户端遇到异常:{}", Throwables.getStackTraceAsString(e));
-        } finally {
-            workerGroup.shutdownGracefully();
-        }
+        }//去掉线程池的关闭
+    }
+
+    /**
+     * 可被调用的计算方法,由自动连接改为自己控制连接
+     * 每调用一次
+     */
+    public CalculateResponse calculate(CalculateRequest request){
+        //发起请求
+        Channel channel = channelFuture.channel();
+
+        channel.writeAndFlush(request);
+        channel.closeFuture().syncUninterruptibly();
+        log.info("RPC 服务开始客户端已关闭");
+
+        return channelHandler.getResponse();
+
+
     }
 }
