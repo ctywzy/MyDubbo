@@ -1,4 +1,4 @@
-# 1.0.0 (2020-09-02)
+# 1.0.0 (2020-09-03)
 
 
 ### Bug Fixes
@@ -10,6 +10,7 @@
 
 * changeLog 功能添加 ([a8e3cec](https://github.com/ctywzy/MyDubbo/commit/a8e3cec532f00a8ec5908ed74b82ed0af9906c08))
 * 客户端调服务端 ([ef4e48e](https://github.com/ctywzy/MyDubbo/commit/ef4e48e2bf1e1772d47bbad38e550ca974779246))
+* 由自动连接调用改为主动调用 ([ae096e9](https://github.com/ctywzy/MyDubbo/commit/ae096e9732b475329bbf4f6ed803ff97e89f3d68))
 * 给客户端和服务器增加 加解码操作使之可以通信 ([531d85b](https://github.com/ctywzy/MyDubbo/commit/531d85b300b512cb0b31a8885fb949c88a08cbd4))
 
 
