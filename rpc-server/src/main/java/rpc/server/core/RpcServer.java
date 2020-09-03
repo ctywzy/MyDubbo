@@ -42,8 +42,8 @@ public class RpcServer extends Thread{
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
                             ch.pipeline()
-                                .addLast(new RequestDecode())
-                                .addLast(new ResponseEncode())
+//                                .addLast(new RequestDecode())
+//                                .addLast(new ResponseEncode())
                                 .addLast(new RpcServerHandler());
 
                          }

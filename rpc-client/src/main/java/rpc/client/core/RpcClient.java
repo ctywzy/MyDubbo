@@ -1,7 +1,11 @@
 package rpc.client.core;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -14,6 +18,10 @@ import rpc.client.handle.RpcClientHandler;
 import rpc.common.constant.RpcConstant;
 import rpc.common.model.CalculateRequest;
 import rpc.common.model.CalculateResponse;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 /**
  * @Description netty客户端类
@@ -46,6 +54,11 @@ public class RpcClient extends Thread{
      */
     private RpcClientHandler channelHandler;
 
+    /**
+     * 序列化工具对象
+     */
+    private ObjectMapper mapper = new ObjectMapper();
+
     @Override
     public void start() {
 
@@ -65,8 +78,8 @@ public class RpcClient extends Thread{
                                              channelHandler = new RpcClientHandler();
                                              ch.pipeline()
                                                  .addLast(new LoggingHandler(LogLevel.INFO))
-                                                 .addLast(new ResponseDecode())
-                                                 .addLast(new RequestEncode())
+//                                                 .addLast(new ResponseDecode())
+//                                                 .addLast(new RequestEncode())
                                                  .addLast(channelHandler);
                                          }
                                      })
@@ -82,11 +95,20 @@ public class RpcClient extends Thread{
      * 可被调用的计算方法,由自动连接改为自己控制连接
      * 每调用一次
      */
-    public CalculateResponse calculate(CalculateRequest request){
+    public CalculateResponse calculate(CalculateRequest request) throws IOException {
         //发起请求
         Channel channel = channelFuture.channel();
 
-        channel.writeAndFlush(request);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream ops = new ObjectOutputStream(bos);
+        ops.writeObject((Object) request);
+
+        byte[] bytes = bos.toByteArray();
+
+        ByteBuf byteBuf = Unpooled.copiedBuffer(bytes);
+        channel.writeAndFlush(byteBuf);
+
         channel.closeFuture().syncUninterruptibly();
         log.info("RPC 服务开始客户端已关闭");
 

@@ -5,12 +5,13 @@ import rpc.client.core.RpcClient;
 import rpc.client.proxy.CalculatorProxy;
 import rpc.common.model.CalculateRequest;
 import rpc.common.model.CalculateResponse;
+import rpc.common.service.Calculator;
 
 @Slf4j
 public class RpcClientStart {
 
     public static void main(String[] args) {
-        CalculatorProxy proxy = new CalculatorProxy();
+        Calculator proxy = new CalculatorProxy();
         CalculateRequest request = new CalculateRequest(2L, 7L);
 
         CalculateResponse response = proxy.sum(request);
