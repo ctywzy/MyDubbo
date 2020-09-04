@@ -6,11 +6,15 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
+import rpc.common.domain.RpcRequest;
+import rpc.common.domain.impl.DefaultRpcRequest;
+import rpc.common.domain.impl.DefaultRpcResponse;
 import rpc.common.model.CalculateRequest;
 import rpc.common.model.CalculateResponse;
 import rpc.common.service.Calculator;
 import rpc.common.stream.StreamConvert;
 import rpc.server.service.CalculatorImpl;
+import rpc.server.service.impl.DefaultServiceFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -41,16 +45,43 @@ public class RpcServerHandler extends SimpleChannelInboundHandler {
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         final String id = ctx.channel().id().asLongText();
 
-        CalculateRequest request = StreamConvert.bytesToObject(msg);
+        RpcRequest request = StreamConvert.bytesToObject(msg);
         log.info("[Server] receive channel : {} request: {} from ", id, request);
 
-        Calculator calculator = new CalculatorImpl();
-
-        CalculateResponse response = calculator.sum(request);
-
+        DefaultRpcResponse response = handleRpcRequest(request);
         //回写到client客户端
         ctx.writeAndFlush(StreamConvert.objectToBytes(response));
 
         log.info("[Server] channel {} response {}", id, response);
+    }
+
+    /**
+     * 处理请求信息
+     * @param request 请求信息
+     * @return 结果信息
+     */
+    private DefaultRpcResponse handleRpcRequest(final RpcRequest request){
+
+        DefaultRpcResponse response = new DefaultRpcResponse();
+        response.seqId(request.seqId());
+
+        try {
+            // 获取对应的 service 实现类
+            // rpcRequest=>invocationRequest
+            // 执行 invoke
+            Object result = DefaultServiceFactory.getInstance()
+                                                 .invoke(request.serviceId(),
+                                                         request.methodName(),
+                                                         request.paramTypeNames(),
+                                                         request.paramValues());
+            response.result(result);
+        } catch (Exception e) {
+            response.error(e);
+            log.error("[Server] execute meet ex for request", request, e);
+        }
+
+        // 构建结果值
+        return response;
+
     }
 }

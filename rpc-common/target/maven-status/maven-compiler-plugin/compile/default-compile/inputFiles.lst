@@ -1,4 +1,6 @@
+/Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/config/component/RpcAddress.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/stream/StreamConvert.java
+/Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/constant/ServiceIdConst.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/service/Calculator.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/model/CalculateResponse.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/model/CalculateRequest.java

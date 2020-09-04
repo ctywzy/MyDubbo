@@ -22,9 +22,7 @@ public class RpcClientStart {
         config.addresses(RpcConstant.ADDRESS, RpcConstant.PORT);
 
         Calculator calculator = config.reference();
-        CalculateRequest request = new CalculateRequest();
-        request.setOne(10L);
-        request.setTwo(20L);
+        CalculateRequest request = new CalculateRequest(10L, 20L);
 
         CalculateResponse response = calculator.sum(request);
         System.out.println(response);

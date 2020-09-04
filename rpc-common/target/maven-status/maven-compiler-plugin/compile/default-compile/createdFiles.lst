@@ -1,5 +1,7 @@
 rpc/common/constant/RpcConstant.class
-rpc/common/stream/StreamConvert.class
 rpc/common/model/CalculateRequest.class
+rpc/common/constant/ServiceIdConst.class
 rpc/common/service/Calculator.class
+rpc/common/stream/StreamConvert.class
+rpc/common/config/component/RpcAddress.class
 rpc/common/model/CalculateResponse.class

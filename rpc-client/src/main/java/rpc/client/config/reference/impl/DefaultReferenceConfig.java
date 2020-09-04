@@ -1,5 +1,6 @@
 package rpc.client.config.reference.impl;
 
+import com.google.common.collect.Lists;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandler;
 import io.netty.util.internal.StringUtil;
@@ -8,6 +9,7 @@ import rpc.client.core.RpcClient;
 import rpc.client.core.context.impl.DefaultRpcClientContext;
 import rpc.client.handle.RpcClientHandler;
 import rpc.client.invoke.InvokeService;
+import rpc.client.invoke.impl.DefaultInvokeService;
 import rpc.client.proxy.ReferenceProxy;
 import rpc.client.proxy.context.ProxyContext;
 import rpc.client.proxy.context.impl.DefaultProxyContext;
@@ -82,6 +84,12 @@ public class DefaultReferenceConfig<T> implements ReferenceConfig<T> {
      * 服务接口
      */
     private InvokeService invokeService;
+
+    public DefaultReferenceConfig(){
+        this.rpcAddresses = Lists.newArrayList();
+        this.channelFutures = Lists.newArrayList();
+        this.invokeService = new DefaultInvokeService();
+    }
 
     @Override
     public ReferenceConfig<T> serviceId(String serviceId) {
