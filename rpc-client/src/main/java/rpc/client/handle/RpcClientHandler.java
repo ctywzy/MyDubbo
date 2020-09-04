@@ -5,6 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
 import rpc.client.invoke.InvokeService;
+import rpc.common.domain.RpcResponse;
 import rpc.common.model.CalculateResponse;
 import rpc.common.stream.StreamConvert;
 
@@ -16,11 +17,9 @@ import rpc.common.stream.StreamConvert;
 @Slf4j
 public class RpcClientHandler extends SimpleChannelInboundHandler {
 
-    CalculateResponse response;
+    RpcResponse response;
 
     private InvokeService invokeService;
-
-    ObjectMapper mapper = new ObjectMapper();
 
     public RpcClientHandler(InvokeService invokeService) {
         this.invokeService = invokeService;
@@ -35,8 +34,9 @@ public class RpcClientHandler extends SimpleChannelInboundHandler {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        response = StreamConvert.bytesToObject(msg);
 
+        response = StreamConvert.bytesToObject(msg);
+        invokeService.addResponse(response.seqId(), response);
         log.info("[Client] response is :{}", response);
     }
 
@@ -47,7 +47,5 @@ public class RpcClientHandler extends SimpleChannelInboundHandler {
         ctx.flush();
     }
 
-    public CalculateResponse getResponse() {
-        return response;
-    }
+
 }
