@@ -1,28 +1,22 @@
 package rpc.client.core;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
-import rpc.client.code.ResponseDecode;
-import rpc.client.code.RequestEncode;
+import rpc.client.core.context.RpcClientContext;
 import rpc.client.handle.RpcClientHandler;
 import rpc.common.constant.RpcConstant;
 import rpc.common.model.CalculateRequest;
 import rpc.common.model.CalculateResponse;
 import rpc.common.stream.StreamConvert;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 /**
  * @Description netty客户端类
@@ -33,41 +27,38 @@ import java.io.ObjectOutputStream;
 public class RpcClient extends Thread{
 
     /**
+     * 地址信息
+     */
+    private final String address;
+
+    /**
      * 监听端口号
      */
     private final int port;
 
-    public RpcClient(int port) {
-        this.port = port;
+    /**
+     * 客户端处理 handler
+     * 作用：用于获取请求信息
+     */
+    private final ChannelHandler channelHandler;
+
+    public RpcClient(final RpcClientContext context){
+        this.address = context.address();
+        this.port = context.port();
+        this.channelHandler = context.channelHandler();
     }
 
-    public RpcClient(){
-        this(RpcConstant.PORT);
-    }
-
-    /**
-     * 信息
-     */
-    private ChannelFuture channelFuture;
-
-    /**
-     * 客户端处理
-     */
-    private RpcClientHandler channelHandler;
-
-    /**
-     * 序列化工具对象
-     */
-    private ObjectMapper mapper = new ObjectMapper();
-
-    @Override
-    public void start() {
+    public ChannelFuture connent() {
 
         // 启动客户端
         log.info("RPC 服务开始启动客户端");
 
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
+        /**
+         * 用于写入请求信息
+         */
+        ChannelFuture channelFuture = null;
         try{
             Bootstrap bootStrap = new Bootstrap();
             channelFuture = bootStrap.group(workerGroup)
@@ -76,11 +67,9 @@ public class RpcClient extends Thread{
                                      .handler(new ChannelInitializer<Channel>() {
                                          @Override
                                          protected void initChannel(Channel ch) throws Exception {
-                                             channelHandler = new RpcClientHandler();
+                                             //channelHandler = new RpcClientHandler();
                                              ch.pipeline()
                                                  .addLast(new LoggingHandler(LogLevel.INFO))
-//                                                 .addLast(new ResponseDecode())
-//                                                 .addLast(new RequestEncode())
                                                  .addLast(channelHandler);
                                          }
                                      })
@@ -90,25 +79,8 @@ public class RpcClient extends Thread{
         } catch (Exception e){
             log.error("RPC 客户端遇到异常:{}", Throwables.getStackTraceAsString(e));
         }//去掉线程池的关闭
+
+        return channelFuture;
     }
 
-    /**
-     * 可被调用的计算方法,由自动连接改为自己控制连接
-     * 每调用一次
-     */
-    public CalculateResponse calculate(CalculateRequest request) throws IOException {
-        //发起请求
-        Channel channel = channelFuture.channel();
-
-
-        //写入流中
-        channel.writeAndFlush(StreamConvert.objectToBytes(request));
-
-        channel.closeFuture().syncUninterruptibly();
-        log.info("RPC 服务开始客户端已关闭");
-
-        return channelHandler.getResponse();
-
-
-    }
 }

@@ -1,18 +1,12 @@
 package rpc.client.handle;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
-import rpc.common.model.CalculateRequest;
+import rpc.client.invoke.InvokeService;
 import rpc.common.model.CalculateResponse;
 import rpc.common.stream.StreamConvert;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 /**
  * @Description 客户端请求处理类
@@ -24,7 +18,14 @@ public class RpcClientHandler extends SimpleChannelInboundHandler {
 
     CalculateResponse response;
 
+    private InvokeService invokeService;
+
     ObjectMapper mapper = new ObjectMapper();
+
+    public RpcClientHandler(InvokeService invokeService) {
+        this.invokeService = invokeService;
+    }
+
     /**
      * @description 这个方法是收到消息时改如何处理
      * @param ctx

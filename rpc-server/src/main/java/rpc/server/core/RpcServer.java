@@ -7,8 +7,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import rpc.common.constant.RpcConstant;
-import rpc.server.code.RequestDecode;
-import rpc.server.code.ResponseEncode;
 import rpc.server.handle.RpcServerHandler;
 
 /**
@@ -42,8 +40,6 @@ public class RpcServer extends Thread{
                         @Override
                         protected void initChannel(Channel ch) throws Exception {
                             ch.pipeline()
-//                                .addLast(new RequestDecode())
-//                                .addLast(new ResponseEncode())
                                 .addLast(new RpcServerHandler());
 
                          }

@@ -5,5 +5,6 @@ import rpc.common.model.CalculateResponse;
 
 public interface Calculator {
 
-    public CalculateResponse sum(CalculateRequest request);
+
+    CalculateResponse sum(CalculateRequest request);
 }
