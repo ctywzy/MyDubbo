@@ -3,13 +3,9 @@ package rpc.server.service.impl;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.sun.deploy.util.ArrayUtil;
-import com.sun.deploy.util.StringUtils;
-import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import rpc.common.constant.PunctuationConst;
 import rpc.server.config.service.ServiceConfig;
-import rpc.server.registry.ServiceRegistry;
 import rpc.server.service.ServiceFactory;
 
 import java.lang.reflect.InvocationTargetException;
@@ -46,8 +42,15 @@ public class DefaultServiceFactory implements ServiceFactory {
 
     {
         isIgnoreMethod = Lists.newArrayList();
-
-
+        isIgnoreMethod.add("wait");
+        isIgnoreMethod.add("equales");
+        isIgnoreMethod.add("toString");
+        isIgnoreMethod.add("hashCode");
+        isIgnoreMethod.add("getClass");
+        isIgnoreMethod.add("notify");
+        isIgnoreMethod.add("wait");
+        isIgnoreMethod.add("wait");
+        isIgnoreMethod.add("wait");
         serviceMap = Maps.newHashMap();
 
         methodMap = Maps.newHashMap();
@@ -140,7 +143,7 @@ public class DefaultServiceFactory implements ServiceFactory {
      * @since feature/0.0.6
      */
     private String buildMethodKey(String serviceId, String methodName, List<String> paramTypeNames) {
-        String param = StringUtils.join(paramTypeNames, PunctuationConst.AT);
+        String param = paramTypeNames.toString();
         return serviceId + PunctuationConst.COLON + methodName+PunctuationConst.COLON + param;
     }
 

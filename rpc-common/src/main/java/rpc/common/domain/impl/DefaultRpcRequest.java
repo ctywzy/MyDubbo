@@ -26,9 +26,18 @@ public class DefaultRpcRequest implements RpcRequest {
 
     private String methodName;
 
+    /**
+     * 参数类型
+     */
     private List<String> paramTypeNames;
 
+    /**
+     * 参数值
+     */
     private Object[] paramValues;
+
+    private Long createTime;
+
     public String seqId() {
         return this.seqId;
     }
@@ -71,6 +80,15 @@ public class DefaultRpcRequest implements RpcRequest {
 
     public DefaultRpcRequest paramValues(Object[] paramValues) {
         this.paramValues = paramValues;
+        return this;
+    }
+
+    public Long createTime(){
+        return this.createTime;
+    }
+
+    public DefaultRpcRequest createTime(Long createTime) {
+        this.createTime = createTime;
         return this;
     }
 }

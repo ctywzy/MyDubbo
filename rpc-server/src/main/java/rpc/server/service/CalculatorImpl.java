@@ -9,6 +9,7 @@ public class CalculatorImpl implements Calculator {
 
     @Override
     public CalculateResponse sum(CalculateRequest request) {
-        return null;
+        Long sum = request.getOne() + request.getTwo();
+        return new CalculateResponse(true, sum);
     }
 }

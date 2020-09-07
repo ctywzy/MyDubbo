@@ -1,4 +1,10 @@
 rpc/server/service/CalculatorImpl.class
+rpc/server/config/service/impl/DefaultServiceConfig.class
+rpc/server/service/ServiceFactory.class
+rpc/server/core/RpcServer$1.class
+rpc/server/config/service/ServiceConfig.class
+rpc/server/service/impl/DefaultServiceFactory.class
+rpc/server/registry/ServiceRegistry.class
 rpc/server/core/RpcServer.class
 rpc/server/handle/RpcServerHandler.class
-rpc/server/core/RpcServer$1.class
+rpc/server/registry/impl/DefaultServiceRegistry.class

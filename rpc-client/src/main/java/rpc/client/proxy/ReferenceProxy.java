@@ -1,10 +1,17 @@
 package rpc.client.proxy;
 
+import io.netty.channel.Channel;
+import lombok.extern.slf4j.Slf4j;
 import rpc.client.proxy.context.ProxyContext;
+import rpc.client.support.id.impl.Uuid;
+import rpc.client.support.time.impl.DefaultSystemTime;
+import rpc.common.domain.RpcResponse;
+import rpc.common.domain.impl.DefaultRpcRequest;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Objects;
 
 /**
  * 核心流程如下：
@@ -18,6 +25,8 @@ import java.lang.reflect.Proxy;
  * @Author wangzy
  * @Date 2020/9/4 11:11 上午
  **/
+
+@Slf4j
 public class ReferenceProxy<T> implements InvocationHandler {
 
     /**
@@ -37,8 +46,57 @@ public class ReferenceProxy<T> implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return null;
+        // 反射信息处理成为 rpcRequest
+        final String seqId = Uuid.getInstance().id();
+        final long createTime = DefaultSystemTime.getInstance().time();
+        DefaultRpcRequest request = new DefaultRpcRequest();
+        request.serviceId(proxyContext.serviceId());
+        request.seqId(seqId);
+        request.createTime(createTime);
+        request.paramValues(args);
+        //request.paramTypeNames(ReflectMethodUtil.getParamTypeNames(method));
+        request.methodName(method.getName());
+
+        // 调用远程
+        log.info("[Client] start call remote with request: {}", request);
+        proxyContext.invokeService().addRequest(seqId);
+
+        // 这里使用 load-balance 进行选择 channel 写入。
+        final Channel channel = getChannel();
+        log.info("[Client] start call channel id: {}", channel.id().asLongText());
+
+        // 对于信息的写入，实际上有着严格的要求。
+        // writeAndFlush 实际是一个异步的操作，直接使用 sync() 可以看到异常信息。
+        // 支持的必须是 ByteBuf
+        /**
+         * 一定要有信息写入的操作，服务端才能收到消息
+         */
+        channel.writeAndFlush(request).sync();
+
+        // 循环获取结果
+        // 通过 Loop+match  wait/notifyAll 来获取
+        // 分布式根据 redis+queue+loop
+        log.info("[Client] start get resp for seqId: {}", seqId);
+        RpcResponse response = proxyContext.invokeService().getResponse(seqId);
+        log.info("[Client] start get resp for seqId: {}", seqId);
+        Throwable error = response.error();
+        if(Objects.nonNull(error)) {
+            throw error;
+        }
+        return response.result();
     }
+
+    /**
+     * 获取对应的 channel
+     * （1）暂时使用写死的第一个
+     * （2）后期这里需要调整，ChannelFuture 加上权重信息。
+     * @return 对应的 channel 信息。
+     * @since 0.0.6
+     */
+    private Channel getChannel() {
+        return proxyContext.channelFutures().get(0).channel();
+    }
+
 
     /**
      * 这里是直接使用 java 动态代理实现的。

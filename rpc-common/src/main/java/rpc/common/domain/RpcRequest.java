@@ -34,4 +34,6 @@ public interface RpcRequest extends BaseRpc {
      * @return
      */
     Object[] paramValues();
+
+    Long createTime();
 }
