@@ -1,5 +1,6 @@
 package rpc.common.domain.impl;
 
+import lombok.ToString;
 import rpc.common.domain.BaseRpc;
 import rpc.common.domain.RpcRequest;
 import rpc.common.domain.RpcResponse;
@@ -11,6 +12,7 @@ import java.util.List;
  * @Author wangzy
  * @Date 2020/9/4 3:41 下午
  **/
+@ToString
 public class DefaultRpcRequest implements RpcRequest {
 
     private static final long serialVersionUID = -6552255621120853412L;

@@ -43,13 +43,11 @@ public class DefaultServiceFactory implements ServiceFactory {
     {
         isIgnoreMethod = Lists.newArrayList();
         isIgnoreMethod.add("wait");
-        isIgnoreMethod.add("equales");
+        isIgnoreMethod.add("equals");
         isIgnoreMethod.add("toString");
         isIgnoreMethod.add("hashCode");
         isIgnoreMethod.add("getClass");
         isIgnoreMethod.add("notify");
-        isIgnoreMethod.add("wait");
-        isIgnoreMethod.add("wait");
         isIgnoreMethod.add("wait");
         serviceMap = Maps.newHashMap();
 

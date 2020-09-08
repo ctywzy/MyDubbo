@@ -1,5 +1,6 @@
 package rpc.client.proxy;
 
+import com.google.common.collect.Lists;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import rpc.client.proxy.context.ProxyContext;
@@ -7,10 +8,12 @@ import rpc.client.support.id.impl.Uuid;
 import rpc.client.support.time.impl.DefaultSystemTime;
 import rpc.common.domain.RpcResponse;
 import rpc.common.domain.impl.DefaultRpcRequest;
+import rpc.common.stream.StreamConvert;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -54,11 +57,11 @@ public class ReferenceProxy<T> implements InvocationHandler {
         request.seqId(seqId);
         request.createTime(createTime);
         request.paramValues(args);
-        //request.paramTypeNames(ReflectMethodUtil.getParamTypeNames(method));
+        request.paramTypeNames(getParamTypeNames(method));
         request.methodName(method.getName());
 
         // 调用远程
-        log.info("[Client] start call remote with request: {}", request);
+        log.info("[Client] start call remote with request: {}", request.toString());
         proxyContext.invokeService().addRequest(seqId);
 
         // 这里使用 load-balance 进行选择 channel 写入。
@@ -71,7 +74,7 @@ public class ReferenceProxy<T> implements InvocationHandler {
         /**
          * 一定要有信息写入的操作，服务端才能收到消息
          */
-        channel.writeAndFlush(request).sync();
+        channel.writeAndFlush(StreamConvert.objectToBytes(request)).sync();
 
         // 循环获取结果
         // 通过 Loop+match  wait/notifyAll 来获取
@@ -98,6 +101,14 @@ public class ReferenceProxy<T> implements InvocationHandler {
     }
 
 
+    private List<String> getParamTypeNames(Method method) {
+        Class<?>[] paramTypes = method.getParameterTypes();
+        List<String> params = Lists.newArrayList();
+        for(Class<?> param : paramTypes){
+            params.add(param.getName());
+        }
+        return params;
+    }
     /**
      * 这里是直接使用 java 动态代理实现的。
      * 是服务端代理创建的核心实现。
