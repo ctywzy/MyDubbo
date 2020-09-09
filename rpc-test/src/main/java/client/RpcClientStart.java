@@ -17,7 +17,7 @@ public class RpcClientStart {
         // 服务配置信息
         ReferenceConfig<Calculator> config = new DefaultReferenceConfig<Calculator>();
         config.serviceId(ServiceIdConst.CALC);
-        config.serviceInterface(Calculator.class);
+        config.serviceInterface(Calculator.class);// 动态代理中被代理类实现的接口
 
         config.addresses(RpcConstant.ADDRESS, RpcConstant.PORT);
 

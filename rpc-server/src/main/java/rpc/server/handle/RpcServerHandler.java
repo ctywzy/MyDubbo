@@ -40,7 +40,7 @@ public class RpcServerHandler extends SimpleChannelInboundHandler {
         final String id = ctx.channel().id().asLongText();
 
         RpcRequest request = StreamConvert.bytesToObject(msg);
-        log.info("[Server] receive channel : {} request: {} from ", id, request);
+        log.info("[Server] receive channel : {} request: {} from ", id, request.toString());
 
         DefaultRpcResponse response = handleRpcRequest(request);
         //回写到client客户端

@@ -143,8 +143,11 @@ public class DefaultReferenceConfig<T> implements ReferenceConfig<T> {
         // 循环连接
 
         for(RpcAddress rpcAddress : rpcAddresses){
+            // 收到消息时的处理方式
             final ChannelHandler channelHandler = new RpcClientHandler(invokeService);
+            //动态代理上下文
             final DefaultRpcClientContext context = new DefaultRpcClientContext();
+            //设置上下文参数
             context.address(rpcAddress.address()).port(rpcAddress.port()).channelHandler(channelHandler);
             ChannelFuture channelFuture = new RpcClient(context).connent();
             channelFutures.add(channelFuture);
