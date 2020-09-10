@@ -1,8 +1,8 @@
 package rpc.client.invoke.impl;
 
-import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import rpc.client.invoke.InvokeService;
+import rpc.common.domain.RpcRequest;
 import rpc.common.domain.RpcResponse;
 
 import java.util.HashSet;
@@ -12,6 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class DefaultInvokeService implements InvokeService {
+
+    /**
+     * 请求参数集合
+     * 以seqId作为唯一标识
+     * 用来记录请求是否超时
+     */
+    private final ConcurrentHashMap<String , RpcRequest> requestMap;
 
     /**
      * 响应结果
@@ -29,6 +36,7 @@ public class DefaultInvokeService implements InvokeService {
 
     public DefaultInvokeService() {
         responseMap = new ConcurrentHashMap<>();
+        requestMap = new ConcurrentHashMap<>();
         requestSet = new HashSet<>();
     }
 

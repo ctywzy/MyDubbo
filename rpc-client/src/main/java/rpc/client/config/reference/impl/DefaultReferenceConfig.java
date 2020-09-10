@@ -85,10 +85,16 @@ public class DefaultReferenceConfig<T> implements ReferenceConfig<T> {
      */
     private InvokeService invokeService;
 
+    /**
+     * 超时时间
+     */
+    private Long timeout;
+
     public DefaultReferenceConfig(){
         this.rpcAddresses = Lists.newArrayList();
         this.channelFutures = Lists.newArrayList();
         this.invokeService = new DefaultInvokeService();
+        this.timeout = 15 * 1000L;
     }
 
     @Override
@@ -156,6 +162,12 @@ public class DefaultReferenceConfig<T> implements ReferenceConfig<T> {
         ProxyContext<T> proxyContext = buildReferenceProxyContext();
 
         return ReferenceProxy.newProxyInstance(proxyContext);
+    }
+
+    @Override
+    public ReferenceConfig<T> Timeout(Long timeoutMill) {
+        this.timeout = timeoutMill;
+        return this;
     }
 
     /**

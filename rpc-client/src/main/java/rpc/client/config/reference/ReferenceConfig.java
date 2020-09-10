@@ -51,4 +51,10 @@ public interface ReferenceConfig<T> {
      * @since feature/0.0.6
      */
      T reference();
+
+    /**
+     * 设置超时时间
+     * @return this
+     */
+    ReferenceConfig<T> Timeout(Long timeoutMills);
 }

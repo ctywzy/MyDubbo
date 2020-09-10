@@ -62,9 +62,13 @@ public class ReferenceProxy<T> implements InvocationHandler {
 
         // 调用远程
         log.info("[Client] start call remote with request: {}", request.toString());
-        proxyContext.invokeService().addRequest(seqId);
 
         // 这里使用 load-balance 进行选择 channel 写入。
+
+        /**
+         * 这个channel是和客户端连接创建成功的
+         *
+         */
         final Channel channel = getChannel();
         log.info("[Client] start call channel id: {}", channel.id().asLongText());
 
@@ -81,7 +85,7 @@ public class ReferenceProxy<T> implements InvocationHandler {
         // 分布式根据 redis+queue+loop
         log.info("[Client] start get resp for seqId: {}", seqId);
         RpcResponse response = proxyContext.invokeService().getResponse(seqId);
-        log.info("[Client] start get resp for seqId: {}", seqId);
+        log.info("[Client] end get resp for seqId: {}", seqId);
         Throwable error = response.error();
         if(Objects.nonNull(error)) {
             throw error;
