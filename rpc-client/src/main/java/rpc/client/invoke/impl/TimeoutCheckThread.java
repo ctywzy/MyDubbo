@@ -10,13 +10,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TimeoutCheckThread implements Runnable{
 
     /**
-     * 请求信息
+     * 请求信息，用来记录请求是否超时
+     * @key reqId
+     * @Value 超时时间
      * @since feature/0.0.7
      */
     private final ConcurrentHashMap<String, Long> requestMap;
 
     /**
-     * 请求信息
+     * 答复信息
      * @since feature/0.0.7
      */
     private final ConcurrentHashMap<String, RpcResponse> responseMap;

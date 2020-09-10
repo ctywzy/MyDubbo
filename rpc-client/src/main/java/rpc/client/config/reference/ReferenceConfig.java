@@ -56,5 +56,5 @@ public interface ReferenceConfig<T> {
      * 设置超时时间
      * @return this
      */
-    ReferenceConfig<T> Timeout(Long timeoutMills);
+    ReferenceConfig<T> timeout(Long timeoutMills);
 }

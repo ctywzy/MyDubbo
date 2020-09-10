@@ -33,9 +33,9 @@ public class RpcClientHandler extends SimpleChannelInboundHandler {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-
-
+        //解析ByteBuf对象
         response = StreamConvert.bytesToObject(msg);
+        //
         invokeService.addResponse(response.seqId(), response);
         log.info("[Client] response is :{}", response);
     }

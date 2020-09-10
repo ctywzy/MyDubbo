@@ -158,14 +158,14 @@ public class DefaultReferenceConfig<T> implements ReferenceConfig<T> {
             ChannelFuture channelFuture = new RpcClient(context).connent();
             channelFutures.add(channelFuture);
         }
-        // 2. 接口动态代理
+        // 2. 接口动态代理,设置上下文信息
         ProxyContext<T> proxyContext = buildReferenceProxyContext();
 
         return ReferenceProxy.newProxyInstance(proxyContext);
     }
 
     @Override
-    public ReferenceConfig<T> Timeout(Long timeoutMill) {
+    public ReferenceConfig<T> timeout(Long timeoutMill) {
         this.timeout = timeoutMill;
         return this;
     }
@@ -180,7 +180,8 @@ public class DefaultReferenceConfig<T> implements ReferenceConfig<T> {
         proxyContext.serviceId(this.serviceId)
                     .serviceInterface(this.serviceInterface)
                     .channelFutures(this.channelFutures)
-                    .invokeService(this.invokeService);
+                    .invokeService(this.invokeService)
+                    .timeout(this.timeout);
         return proxyContext;
         
     }

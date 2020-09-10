@@ -40,4 +40,10 @@ public interface ProxyContext<T> {
      * @since 0.0.6
      */
     InvokeService invokeService();
+
+    /**
+     * 设置超时时间
+     * @return
+     */
+    Long timeout();
 }

@@ -64,10 +64,15 @@ public class ReferenceProxy<T> implements InvocationHandler {
         log.info("[Client] start call remote with request: {}", request.toString());
 
         // 这里使用 load-balance 进行选择 channel 写入。
+        /**
+         * 在上下文中添加超时时间的记录，上下文的使用在
+         * @see rpc.client.config.reference.impl.DefaultReferenceConfig
+         */
+        proxyContext.invokeService().addRequest(seqId, proxyContext.timeout());
 
         /**
          * 这个channel是和客户端连接创建成功的
-         *
+         * 才会创建的
          */
         final Channel channel = getChannel();
         log.info("[Client] start call channel id: {}", channel.id().asLongText());
@@ -136,10 +141,13 @@ public class ReferenceProxy<T> implements InvocationHandler {
 
         Class<?>[] interfaces = new Class[]{interfaceClass};
 
-
         ReferenceProxy proxy = new ReferenceProxy(proxyContext);
 
-        //返回一个代理对象
+        /**
+         * 被代理对象实现的接口的类加载器
+         * 被代理对象实现接口的字节码数组
+         * 实现了InvocationHandle接口的类，其中的invoke方法就是对被代理类的增强
+         */
         return (T) Proxy.newProxyInstance(classLoader, interfaces, proxy);
 
     }

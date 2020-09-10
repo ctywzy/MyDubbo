@@ -16,4 +16,19 @@ public final class RpcConstant {
      * 地址
      */
     public static final String ADDRESS = "127.0.0.1";
+
+    /**
+     * 第一次开启时的延迟时间
+     */
+    public static final Integer INITIAL_TIME = 60;
+
+    /**
+     * 每两次执行之间的间隔时间
+     */
+    public static final Integer PERIOD = 60;
+
+    /**
+     * 定期线程数
+     */
+    public static final Integer SCHEDUL_NUM = 1;
 }

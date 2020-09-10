@@ -32,5 +32,5 @@ public interface InvokeService {
      * @return this
      * @since feature/0.0.6
      */
-    InvokeService addRequest(String seqId);
+    InvokeService addRequest(String seqId, Long timeoutMills);
 }

@@ -2,6 +2,9 @@ package rpc.client.invoke.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import rpc.client.invoke.InvokeService;
+import rpc.client.support.time.Time;
+import rpc.client.support.time.impl.Times;
+import rpc.common.constant.RpcConstant;
 import rpc.common.domain.RpcRequest;
 import rpc.common.domain.RpcResponse;
 
@@ -9,6 +12,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class DefaultInvokeService implements InvokeService {
@@ -18,7 +23,7 @@ public class DefaultInvokeService implements InvokeService {
      * 以seqId作为唯一标识
      * 用来记录请求是否超时
      */
-    private final ConcurrentHashMap<String , RpcRequest> requestMap;
+    private final ConcurrentHashMap<String , Long> requestMap;
 
     /**
      * 响应结果
@@ -26,18 +31,18 @@ public class DefaultInvokeService implements InvokeService {
      */
     private final ConcurrentHashMap<String, RpcResponse> responseMap;
 
-    /**
-     * 请求序列号集合
-     * （1）这里后期如果要添加超时检测，可以添加对应的超时时间。
-     * 可以把这里调整为 map
-     * @since feature/0.0.6
-     */
-    private final Set<String> requestSet;
 
     public DefaultInvokeService() {
         responseMap = new ConcurrentHashMap<>();
         requestMap = new ConcurrentHashMap<>();
-        requestSet = new HashSet<>();
+
+        final Runnable timeoutThread = new TimeoutCheckThread(requestMap, responseMap);
+
+
+        /**
+         * 创建对象的时候直接开启线程,定期清理已经超时的线程
+         **/
+        Executors.newScheduledThreadPool(RpcConstant.SCHEDUL_NUM).scheduleAtFixedRate(timeoutThread, RpcConstant.INITIAL_TIME,RpcConstant.PERIOD, TimeUnit.SECONDS);
     }
 
     @Override
@@ -51,6 +56,8 @@ public class DefaultInvokeService implements InvokeService {
         log.info("[Client] seq 信息已经放入，通知所有等待方", seqId);
 
         synchronized (this) {
+            //当接收到response后
+            // 唤醒堵塞线程
             this.notifyAll();
         }
 
@@ -70,6 +77,7 @@ public class DefaultInvokeService implements InvokeService {
             while (rpcResponse == null) {
                 log.info("[Client] seq {} 对应结果为空，进入等待", seqId);
                 // 同步等待锁
+                // 如果请求没有处理好，则将线程堵塞，等待唤醒
                 synchronized (this) {
                     this.wait();
                 }
@@ -85,9 +93,14 @@ public class DefaultInvokeService implements InvokeService {
     }
 
     @Override
-    public InvokeService addRequest(String seqId) {
+    public InvokeService addRequest(String seqId, Long timeoutMills) {
         log.info("[Client] start add request for seqId: {}", seqId);
-        requestSet.add(seqId);
+        /**
+         * 这个方法和原来的区别
+         * 如果key存在不塞值且返回旧的值
+         */
+        timeoutMills += Times.time();
+        requestMap.putIfAbsent(seqId, timeoutMills);
         return this;
     }
 }
