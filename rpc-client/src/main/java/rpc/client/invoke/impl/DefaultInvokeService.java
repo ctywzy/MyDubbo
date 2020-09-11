@@ -7,6 +7,7 @@ import rpc.client.support.time.impl.Times;
 import rpc.common.constant.RpcConstant;
 import rpc.common.domain.RpcRequest;
 import rpc.common.domain.RpcResponse;
+import rpc.common.domain.impl.RpcResponseFactory;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -45,17 +46,34 @@ public class DefaultInvokeService implements InvokeService {
         Executors.newScheduledThreadPool(RpcConstant.SCHEDUL_NUM).scheduleAtFixedRate(timeoutThread, RpcConstant.INITIAL_TIME,RpcConstant.PERIOD, TimeUnit.SECONDS);
     }
 
+    /**
+     * 方式时判断接口是否超时
+     * @param seqId 唯一标识
+     * @param response 响应结果
+     * @return
+     */
     @Override
     public InvokeService addResponse(String seqId, RpcResponse response) {
         // 这里放入之前，可以添加判断。
         // 如果 seqId 必须处理请求集合中，才允许放入。或者直接忽略丢弃。
         log.info("[Client] 获取结果信息，seq: {}, rpcResponse: {}", seqId, response);
-        responseMap.putIfAbsent(seqId, response);
 
+        Long timeoutMills = requestMap.get(seqId);
+
+        if(timeoutMills < Times.time()){
+            log.info("[Client] 接口已经超时：{}", seqId);
+            response = RpcResponseFactory.Timeout();
+        }
+
+        responseMap.putIfAbsent(seqId, response);
         // 通知所有等待方
-        log.info("[Client] seq 信息已经放入，通知所有等待方", seqId);
+        log.info("[Client] 获取结果信息，seqId: {}, rpcResponse: {}", seqId, response);
+
+        log.info("[Client] seqId:{} 信息已经放入，通知所有等待方", seqId);
 
         synchronized (this) {
+            //准备进行通知，移除该请求
+            responseMap.remove(seqId);
             //当接收到response后
             // 唤醒堵塞线程
             this.notifyAll();
