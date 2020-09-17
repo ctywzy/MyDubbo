@@ -9,6 +9,9 @@ import rpc.common.domain.RpcResponse;
 import rpc.common.model.CalculateResponse;
 import rpc.common.stream.StreamConvert;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @Description 客户端请求处理类
  * @Author wangzy
@@ -35,7 +38,7 @@ public class RpcClientHandler extends SimpleChannelInboundHandler {
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         //解析ByteBuf对象
         response = StreamConvert.bytesToObject(msg);
-        //
+        List<Integer> list = new ArrayList<>();
         invokeService.addResponse(response.seqId(), response);
         log.info("[Client] response is :{}", response);
     }

@@ -4,6 +4,7 @@ import com.google.common.base.Throwables;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import lombok.extern.slf4j.Slf4j;
+import rpc.common.domain.RpcResponse;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -24,8 +25,8 @@ public class StreamConvert {
     /**
      * @description 将字节数组转换为对象
      * 从字节流中读出对象
-     * @param msg
      * @param <T>
+     * @param msg
      * @return
      */
     public static <T> T bytesToObject(Object msg){

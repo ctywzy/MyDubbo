@@ -2,6 +2,8 @@ package rpc.common.domain.impl;
 
 import rpc.common.domain.RpcResponse;
 
+import javax.sound.midi.VoiceStatus;
+
 /**
  * @Description
  * @Author wangzy
@@ -27,6 +29,10 @@ public class DefaultRpcResponse implements RpcResponse {
      * @since 0.0.6
      */
     private Throwable error;
+
+    public static DefaultRpcResponse newInstance() {
+        return new DefaultRpcResponse();
+    }
 
     public String seqId() {
         return this.seqId;

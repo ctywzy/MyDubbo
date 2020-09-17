@@ -10,6 +10,7 @@
         <module name="rpc-test" />
         <module name="rpc-common" />
         <module name="rpc-client" />
+        <module name="rpc-register" />
       </profile>
     </annotationProcessing>
   </component>

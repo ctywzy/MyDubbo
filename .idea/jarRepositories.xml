@@ -42,6 +42,16 @@
       <option name="url" value="http://maven.aliyun.com/nexus/content/groups/public" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="aliyun" />
+      <option name="name" value="aliyun" />
+      <option name="url" value="http://maven.aliyun.com/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="cnooc" />
+      <option name="name" value="cnooc" />
+      <option name="url" value="http://maven.aliyun.com/nexus/content/groups/public" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="cnooc" />
       <option name="name" value="cnooc" />
       <option name="url" value="http://nexus.app-dice.cnooc/repository/maven-public/" />
