@@ -2,8 +2,11 @@ package core.client.impl;
 
 import core.client.ClientRegisterService;
 import domain.entry.ServiceEntry;
+import domain.message.RegisterMessage;
+import domain.message.impl.RegisterMessages;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
+import rpc.common.constant.MessageTypeConst;
 import rpc.common.util.CollectionUtil;
 
 import java.util.*;
@@ -60,7 +63,18 @@ public class DefaultClientReigisterService implements ClientRegisterService {
         serviceClientChannelMap.put(serviceId, channelSet);
     }
 
-    public void notify(String serviceId, List<ServiceEntry> serviceEntryList) {
+    public void notify(String serviceId, final List<ServiceEntry> serviceEntryList) {
+
+        final Set<Channel> channelSet = serviceClientChannelMap.get(serviceId);
+
+        if(CollectionUtil.isEmpty(channelSet)){
+
+        }
+
+        channelSet.stream().forEach( channel -> {
+            RegisterMessage registerMessage = RegisterMessages.of(MessageTypeConst.REGISTER_NOTIFY, serviceEntryList);
+            channel.writeAndFlush(registerMessage);
+        });
 
     }
 }

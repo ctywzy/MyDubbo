@@ -1,6 +1,6 @@
 package rpc.client.invoke.impl;
 
-import rpc.client.support.time.impl.DefaultSystemTime;
+import rpc.common.support.time.impl.DefaultSystemTime;
 import rpc.common.domain.RpcResponse;
 import rpc.common.domain.impl.RpcResponseFactory;
 
