@@ -11,6 +11,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+/**
+ * @Description BufByte和对象互相转换工具类
+ * @Author wangzy
+ * @Date 2020/9/23 9:56 上午
+ **/
 @Slf4j
 public class StreamConvert {
 

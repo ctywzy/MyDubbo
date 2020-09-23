@@ -3,6 +3,7 @@
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/util/CollectionUtil.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/support/id/impl/Uuid.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/constant/ServiceIdConst.java
+/Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/exception/RpcRuntimeException.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/model/CalculateResponse.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/support/time/impl/DefaultSystemTime.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-common/src/main/java/rpc/common/constant/MessageTypeConst.java

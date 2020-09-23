@@ -66,7 +66,7 @@ public class RpcClient extends Thread{
                                                  .addLast(channelHandler);
                                          }
                                      })
-                                     .connect(RpcConstant.ADDRESS, port)
+                                     .connect(address, port)
                                      .syncUninterruptibly();
             log.info("RPC 服务启动客户端完成，监听端口：" + port);
         } catch (Exception e){

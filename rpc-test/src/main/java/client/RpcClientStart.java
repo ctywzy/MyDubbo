@@ -17,12 +17,13 @@ public class RpcClientStart {
         // 服务配置信息
         ReferenceConfig<Calculator> config = new DefaultReferenceConfig<Calculator>();
         config.serviceId(ServiceIdConst.CALC);
-        config.serviceInterface(Calculator.class);// 动态代理中被代理类实现的接口
-
+        // 动态代理中被代理类实现的接口
+        config.serviceInterface(Calculator.class);
+        config.subscribe(true);
         config.addresses(RpcConstant.ADDRESS, RpcConstant.PORT);
 
         Calculator calculator = config.reference();
-        CalculateRequest request = new CalculateRequest(10L, 20L);
+        CalculateRequest request = new CalculateRequest(11L, 20L);
 
         CalculateResponse response = calculator.sum(request);
         System.out.println(response);

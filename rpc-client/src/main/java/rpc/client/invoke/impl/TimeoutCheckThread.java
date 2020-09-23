@@ -7,6 +7,11 @@ import rpc.common.domain.impl.RpcResponseFactory;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * @Description 超时检查线程
+ * @Author wangzy
+ * @Date 2020/9/23 9:56 上午
+ **/
 public class TimeoutCheckThread implements Runnable{
 
     /**

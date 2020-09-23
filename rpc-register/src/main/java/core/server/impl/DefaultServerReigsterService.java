@@ -26,6 +26,7 @@ public class DefaultServerReigsterService implements ServerRegisterService {
      */
     Map<String, Set<ServiceEntry>> map;
 
+    @Override
     public List<ServiceEntry> register(ServiceEntry serviceEntry) {
 
         String serviceId = serviceEntry.serviceId();
@@ -43,6 +44,7 @@ public class DefaultServerReigsterService implements ServerRegisterService {
         return CollectionUtil.newArrayList(serviceEntries);
     }
 
+    @Override
     public List<ServiceEntry> unRegister(ServiceEntry serviceEntry) {
         String serviceId = serviceEntry.serviceId();
         Set<ServiceEntry> serviceEntries = map.get(serviceId);
@@ -59,6 +61,7 @@ public class DefaultServerReigsterService implements ServerRegisterService {
 
     }
 
+    @Override
     public List<ServiceEntry> lookUp(String serviceId) {
 
         log.info("[Register Server] start lookUp serviceId: {}", serviceId);

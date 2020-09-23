@@ -8,6 +8,7 @@ rpc/common/domain/BaseRpc.class
 rpc/common/constant/PunctuationConst.class
 rpc/common/config/component/RpcAddress.class
 rpc/common/support/id/Id.class
+rpc/common/exception/RpcRuntimeException.class
 rpc/common/domain/RpcResponse.class
 rpc/common/exception/RpcTimeOutException.class
 rpc/common/model/CalculateResponse.class

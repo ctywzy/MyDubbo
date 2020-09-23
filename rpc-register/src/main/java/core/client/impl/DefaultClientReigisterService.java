@@ -35,6 +35,7 @@ public class DefaultClientReigisterService implements ClientRegisterService {
         this.serviceClientChannelMap = new HashMap();
     }
 
+    @Override
     public void subscribe(ServiceEntry serviceEntry, Channel clientChannel) {
         String serviceId = serviceEntry.serviceId();
 
@@ -49,6 +50,7 @@ public class DefaultClientReigisterService implements ClientRegisterService {
         serviceClientChannelMap.put(serviceId, channelSet);
     }
 
+    @Override
     public void unSubscribe(ServiceEntry serviceEntry, Channel clientChannel) {
         String serviceId = serviceEntry.serviceId();
 
@@ -63,6 +65,7 @@ public class DefaultClientReigisterService implements ClientRegisterService {
         serviceClientChannelMap.put(serviceId, channelSet);
     }
 
+    @Override
     public void notify(String serviceId, final List<ServiceEntry> serviceEntryList) {
 
         final Set<Channel> channelSet = serviceClientChannelMap.get(serviceId);

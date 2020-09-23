@@ -34,25 +34,30 @@ public class CoreRpcRegister implements RpcRegister {
         this.clientRegisterService = clientRegisterService;
     }
 
+    @Override
     public void register(ServiceEntry serviceEntry) {
         List<ServiceEntry> serviceEntries = serverRegisterService.register(serviceEntry);
         clientRegisterService.notify(serviceEntry.serviceId(), serviceEntries);
 
     }
 
+    @Override
     public void unRegister(ServiceEntry serviceEntry) {
         List<ServiceEntry> serviceEntris = serverRegisterService.unRegister(serviceEntry);
         clientRegisterService.notify(serviceEntry.serviceId(), serviceEntris);
     }
 
+    @Override
     public void subscribe(ServiceEntry serviceEntry, Channel channel) {
         clientRegisterService.subscribe(serviceEntry, channel);
     }
 
+    @Override
     public void unSubscribe(ServiceEntry serviceEntry, Channel channel) {
         clientRegisterService.unSubscribe(serviceEntry, channel);
     }
 
+    @Override
     public void lookUp(String seqId, ServiceEntry serviceEntry, Channel channel) {
         String serviceId = serviceEntry.serviceId();
 

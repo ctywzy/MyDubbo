@@ -1,6 +1,9 @@
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-register/src/main/java/core/client/ClientRegisterService.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-register/src/main/java/core/CoreRpcRegister.java
+/Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-register/src/main/java/api/package-info.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-register/src/main/java/domain/message/impl/DefaultRegisterMessage.java
+/Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-register/src/main/java/api/config/impl/RegisterBoot.java
+/Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-register/src/main/java/api/config/RegisterConfig.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-register/src/main/java/domain/entry/impl/DefaultServiceEntry.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-register/src/main/java/core/server/impl/DefaultServerReigsterService.java
 /Users/wangzy/IdeaProjects/wzy/my-dubbo/rpc-register/src/main/java/core/handler/RegisterCenterServerHandler.java

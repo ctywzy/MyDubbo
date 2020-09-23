@@ -40,6 +40,7 @@ public class DefaultRpcRequest implements RpcRequest {
 
     private Long createTime;
 
+    @Override
     public String seqId() {
         return this.seqId;
     }
@@ -49,6 +50,7 @@ public class DefaultRpcRequest implements RpcRequest {
         return this;
     }
 
+    @Override
     public String serviceId() {
         return serviceId;
     }
@@ -58,6 +60,7 @@ public class DefaultRpcRequest implements RpcRequest {
         return this;
     }
 
+    @Override
     public String methodName() {
         return methodName;
     }
@@ -67,6 +70,7 @@ public class DefaultRpcRequest implements RpcRequest {
         return this;
     }
 
+    @Override
     public List<String> paramTypeNames() {
         return paramTypeNames;
     }
@@ -76,6 +80,7 @@ public class DefaultRpcRequest implements RpcRequest {
         return this;
     }
 
+    @Override
     public Object[] paramValues() {
         return paramValues;
     }
@@ -85,6 +90,7 @@ public class DefaultRpcRequest implements RpcRequest {
         return this;
     }
 
+    @Override
     public Long createTime(){
         return this.createTime;
     }

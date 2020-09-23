@@ -39,6 +39,7 @@ public class DefaultServiceEntry implements ServiceEntry {
      */
     private Integer weight;
 
+    @Override
     public String serviceId() {
         return serviceId;
     }
@@ -48,6 +49,7 @@ public class DefaultServiceEntry implements ServiceEntry {
         return this;
     }
 
+    @Override
     public String description() {
         return description;
     }
@@ -57,6 +59,7 @@ public class DefaultServiceEntry implements ServiceEntry {
         return this;
     }
 
+    @Override
     public String ip() {
         return ip;
     }
@@ -66,6 +69,7 @@ public class DefaultServiceEntry implements ServiceEntry {
         return this;
     }
 
+    @Override
     public Integer port() {
         return port;
     }
@@ -75,6 +79,7 @@ public class DefaultServiceEntry implements ServiceEntry {
         return this;
     }
 
+    @Override
     public Integer weight() {
         return weight;
     }

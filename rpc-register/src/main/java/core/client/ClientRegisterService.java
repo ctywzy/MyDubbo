@@ -5,6 +5,11 @@ import io.netty.channel.Channel;
 
 import java.util.List;
 
+/**
+ * @Description 客户端注册服务
+ * @Author wangzy
+ * @Date 2020/9/23 9:54 上午
+ **/
 public interface ClientRegisterService {
 
     /**

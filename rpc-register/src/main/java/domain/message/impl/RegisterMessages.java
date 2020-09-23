@@ -3,6 +3,7 @@ package domain.message.impl;
 import com.google.common.collect.Lists;
 import domain.entry.ServiceEntry;
 import domain.message.RegisterMessage;
+import domain.message.RegisterMessageHeader;
 import rpc.common.support.id.impl.Uuid;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class RegisterMessages {
      * @return 注册消息
      * @since 0.0.8
      */
-    public static RegisterMessage of(int type, List<ServiceEntry> body) {
+    public static RegisterMessage of(int type, Object body) {
         String seqId = Uuid.getInstance().id();
         return of(type, seqId, body);
     }
@@ -34,7 +35,7 @@ public class RegisterMessages {
      * @return 注册消息
      * @since 0.0.8
      */
-    public static RegisterMessage of(int type, String seqId, List<ServiceEntry> body){
+    public static RegisterMessage of(int type, String seqId, Object body){
 
         DefaultRegisterMessage registerMessage = new DefaultRegisterMessage();
         DefaultRegisterMessageHeader registerMessageHeader = new DefaultRegisterMessageHeader();
@@ -48,5 +49,15 @@ public class RegisterMessages {
         registerMessage.seqId(seqId);
 
         return registerMessage;
+    }
+
+    /**
+     * 获取请求头中的类型
+     * @param registerMessage
+     * @return
+     */
+    public static int type(RegisterMessage registerMessage) {
+        RegisterMessageHeader messageHeader = registerMessage.header();
+        return messageHeader.type();
     }
 }

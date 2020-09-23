@@ -15,6 +15,7 @@ public class DefaultRegisterMessageHeader implements RegisterMessageHeader {
      */
     int type;
 
+    @Override
     public int type() {
         return 0;
     }

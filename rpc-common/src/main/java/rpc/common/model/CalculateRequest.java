@@ -4,6 +4,11 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * @Description 计算请求类
+ * @Author wangzy
+ * @Date 2020/9/23 9:54 上午
+ **/
 @Data
 public class CalculateRequest implements Serializable {
 

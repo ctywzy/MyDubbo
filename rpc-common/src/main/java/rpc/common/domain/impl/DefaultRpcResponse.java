@@ -34,15 +34,18 @@ public class DefaultRpcResponse implements RpcResponse {
         return new DefaultRpcResponse();
     }
 
+    @Override
     public String seqId() {
         return this.seqId;
     }
 
+    @Override
     public DefaultRpcResponse seqId(String seqId) {
         this.seqId = seqId;
         return this;
     }
 
+    @Override
     public Throwable error() {
         return error;
     }
@@ -52,6 +55,7 @@ public class DefaultRpcResponse implements RpcResponse {
         return this;
     }
 
+    @Override
     public Object result() {
         return null;
     }

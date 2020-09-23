@@ -1,5 +1,10 @@
 package rpc.common.exception;
 
+/**
+ * @Description 超时异常类型定义
+ * @Author wangzy
+ * @Date 2020/9/23 9:55 上午
+ **/
 public class RpcTimeOutException extends RuntimeException {
 
     private static final long serialVersionUID = -6761687433481998826L;
